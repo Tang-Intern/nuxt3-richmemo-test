@@ -2,11 +2,6 @@
 import { onMounted, reactive } from 'vue'
 import type { FormError, FormSubmitEvent } from '#ui/types'
 import liff from '@line/liff';
-import Line from './auths/line.vue'
-
-const router = useRouter()
-
-router.addRoute({ name: 'line', path: '/auths/line', component: Line })
 
 const liffId = "2005904683-Gm7ggM5l";
 
@@ -14,8 +9,12 @@ onMounted(() => {
   liff.init({
     liffId, // Use own liffId
   })
+  .then(() => {
+    const idToken = liff.getIDToken();
+    console.log(idToken); // print raw idToken object
   });
-
+})
+  
 const onSubmitbyLine = async (event: Event) => {
   event.preventDefault()
   console.log('line login')
